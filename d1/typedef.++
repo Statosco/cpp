@@ -1,0 +1,22 @@
+#include <iostream>
+#include <vector>
+
+typedef std::vector<std::pair<std::string, int > > parilist_t;
+
+// typedef std::string text_t;
+
+int main(){
+    //typedef (reserved keyword used to create an adition name)
+
+    //text_t first = "states";
+
+    // std::cout << first;
+
+    return 0;
+}
+
+//typedef was replaced with using
+// using new_tupe = std::string;
+// int jab(){
+//  new_tupe = "alberts"
+// }
