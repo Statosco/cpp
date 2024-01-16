@@ -3,6 +3,12 @@
 using namespace std;
 #include <algorithm>  // for std::transform
 #include <cctype>     // for std::tolower
+#include <random>
+#include <ctime> 
+#include <experimental/filesystem>
+
+#pragma comment(lib, "stdc++fs") 
+
 
 class Task{
     private:
@@ -54,17 +60,34 @@ void mainMenu(){
 
 }
 
-string secretKey(){
+std::string generateRandomKey() {
+    int length = 9;
+    // Characters allowed in the key
+    const std::string allowedCharacters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
+    // Seed for the random number generator
+    std::mt19937 generator(std::time(0));
+
+    // Distribution to get random indices from the allowedCharacters string
+    std::uniform_int_distribution<int> distribution(0, allowedCharacters.size() - 1);
+
+    // Generate the random key
+    std::string randomKey;
+    for (int i = 0; i < length; ++i) {
+        randomKey += allowedCharacters[distribution(generator)];
+    }
+
+    return randomKey;
 }
 
-void adminCode(){
-    fstream file;
 
-    ofstream file("secrets.txt");
+void adminCode(){
+    filesystem::current_path(filesystem::path(__FILE__).parent_path());
+    fstream file("secrets.txt");
+
 
     if(file.is_open()){
-        file << secretKey();
+        file << generateRandomKey();
 
         file.close();
     };
