@@ -5,9 +5,9 @@ using namespace std;
 #include <cctype>     // for std::tolower
 #include <random>
 #include <ctime> 
-#include <experimental/filesystem>
 
-#pragma comment(lib, "stdc++fs") 
+
+
 
 
 class Task{
@@ -82,10 +82,10 @@ std::string generateRandomKey() {
 
 
 void adminCode(){
-    filesystem::current_path(filesystem::path(__FILE__).parent_path());
-    fstream file("secrets.txt");
+    fstream file;
 
-
+    file.open("secrets.txt", ios::in);
+    
     if(file.is_open()){
         file << generateRandomKey();
 
@@ -96,5 +96,5 @@ void adminCode(){
 int main(){
     cout<<"\n\n\t\t\t---------------------W E L C O M E---------------------\n";
     adminCode();
-    mainMenu();
+    // mainMenu();
 }
