@@ -137,6 +137,7 @@ void shooping:: buyer(){
 }
 
 void shooping:: add(){
+    m:
     fstream data;
 
     int c;
@@ -154,4 +155,167 @@ void shooping:: add(){
     cin>>price;
     cout<<"\n\n\t Discount on product";
     cin>>dis;
+
+    data.open("database.txt", ios::in);
+
+    if(!data){
+        data.open("database.txt", ios::app|ios::out);
+        data<<" "<<pcode<<" "<<pname<<" "<<price<<" "<<dis<<endl;
+        data.close();
+    }else{
+        data>>c>>n>>d;
+
+        while(!data.eof()){
+            if(c==pcode){
+                token++;
+            }
+            data>>c>>n>>p>>d;
+        }
+        data.close();
+    
+    if(token==1){
+        goto m;
+    }
+    else{
+        data.open("database.txt", ios::app|ios::out);
+        data<<" "<<pcode<<" "<<pname<<" "<<price<<" "<<dis<<endl;
+        data.close();
+    }}
+    cout<<"\n\n\t\t record inserted!";
+}
+
+void shooping::edit(){
+    fstream data, data1;
+    int pkey;
+    int token=0;
+    int c;
+    float p;
+    float d;
+    string n;
+
+    cout<<"\n\t\t\t Modify the record";
+    cout<<"\n\t\t\t Product code";
+    cin>>pkey;
+
+    data.open("database.txt", ios::in);
+    if(!data){
+        cout<<"\n\nFile doesn't exist!";
+    }else{
+        data1.open("database1.txt", ios::app|ios::out);
+
+        data>>pcode>>pname>>price>>dis;
+
+        while(!data.eof()){
+            if(pkey==pcode){
+                cout<<"\n\t\t New product code ";
+                cin>>c;
+                cout<<"\n\t\t Name of product ";
+                cin>>n;
+                cout<<"\n\t\t Price ";
+                cin>>p;
+                cout<<"\n\t\t Discount ";
+                cin>>d;
+
+                data1<<" "<<c<<" "<<n<<" "<<p<<" "<<d<<endl;
+                cout<<"Record edited succesfull!";
+                token ++;
+            }
+            else{
+                data1<<" "<<pcode<<" "<<pname<<" "<<price<<" "<<dis<<endl;
+
+            }
+            data>>pcode>>pname>>price>>dis;
+
+        }
+        data.close();
+        data1.close();
+
+        remove("database.txt");
+        rename("database1.txt", "database.txt");
+
+        if(token ==0){
+            cout<<"\n\nRecord not found";
+        }
+    }
+}
+
+void shooping::rem(){
+    fstream data, data1;
+
+    int pkey;
+    int token=0;
+    cout<<"\n\n\t Delete product";
+    cout<<"\n\n\t Product code ";
+    cin>>pkey;
+
+    data.open("database.txt", ios::in);
+    if(!data){
+        cout<<"File doesn't exist!";
+    }else{
+        data1.open("database.txt",ios::app|ios::out);
+        data>>pcode>>pname>>price>>dis;
+
+        while (!data.eof())
+        {
+            if(pcode == pkey){
+                cout<<"\n\n\t Product deleted succesfully";
+                token ++;
+            }
+            else{
+                data1<<" "<<pcode<<" "<<price<<" "<<dis<<endl;
+            }
+            data>>pcode>>pname>>price>>dis;
+        }
+        data.close();
+        data1.close();
+
+        remove("database.txt");
+        rename("database1.txt","database.txt");
+
+        if (token==0)
+        {
+            cout<<"\n\n Record not found";
+        }
+        
+        
+    }
+}
+
+void shooping::list(){
+    fstream data;
+    data.open("database.txt", ios::in);
+    cout<<"\n\n______________________________________________\n";
+    cout<<"prNo\t\tName\t\tPrice\n";
+    cout<<"\n\n______________________________________________\n";
+
+    data>>pcode>>pname>>price>>dis;
+    while (!data.eof())
+    {
+        cout<<pcode<<"\t\t"<<pname<<"\t\t"<<price<<endl;
+        data>>pcode>>pname>>price>>dis;
+
+    }
+    data.close();
+}
+
+void shooping::recipt(){
+    fstream data;
+
+    int arrc[100];
+    int arrq[100];
+    char choice;
+    int c=0;
+    float amount=0;
+    float dis=0;
+    float total=0;
+
+    cout<<"\n\n\t\t\t RECEIPT ";
+    data.open("database.txt", ios::in);
+    if(!data){
+        cout<<"\n\n Empty Database";
+    }else{
+        data.close();
+
+        list();
+    }
 }
