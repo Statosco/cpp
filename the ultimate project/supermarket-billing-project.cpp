@@ -299,6 +299,7 @@ void shooping::list(){
 }
 
 void shooping::recipt(){
+    m:
     fstream data;
 
     int arrc[100];
@@ -317,5 +318,53 @@ void shooping::recipt(){
         data.close();
 
         list();
+        cout<<"\n__________________________________\n";
+        cout<<"\n|                                 \n";
+        cout<<"\n|      please enter the order     \n";
+        cout<<"\n|                                 \n";
+        cout<<"\n__________________________________\n";
+
+        do
+        {
+           cout<<"\n\nEnter Product code :";
+           cin>>arrc[c];
+           cout<<"enter product quantity :";
+           cin>>arrc[c];
+           for(int i=0; i<c; i++){
+            if(arrc[c] == arrc[i]){
+                cout<<"\n\n Duplicate product code. Please try again!";
+                goto m;
+            }
+           }
+           c++;
+           cout<<"\n\n Do you want to buy another product (y/n)";
+           cin>>choice;
+        } while (choice == 'y');
+
+
+        cout<<"\n\n\t\t\t_____________________________RECEIPT______________________\n";
+        cout<<"\nProduct No\t Product Name\t Product quantiny\tPrice\tAmount with discount\n";
+
+        for(int i=0; i<c; i++){
+            data.open("database.txt, ios::in");
+            data>>pcode>>pname>>price>>dis;
+            while (!data.eof())
+            {
+                if(pcode==arrc[i]){
+                    amount=price*arrq[i];
+                    dis=amount-(amount*dis/100);
+                    total += dis;
+                    cout<<"\n"<<pcode<<"\t\t"<<pname<<"\t\t"<<arrq[i]<<"\t\t"<<price<<"\t"<<amount<<"\t\t"<<dis;
+                }
+                data>>pcode>>pname>>price>>dis;
+            }
+            data.close();
+        }
     }
+        cout<<"\n\n___________________________________________________";
+        cout<<"\n Total Amount : "<<total;
+}
+int main (){
+    shooping s;
+    s.menu();
 }
